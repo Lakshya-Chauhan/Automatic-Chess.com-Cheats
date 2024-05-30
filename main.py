@@ -6,12 +6,12 @@ from stockfish import Stockfish
 
 stockfish = Stockfish(path = "<---Path of the Stockfish Exe--->", depth=18, parameters={"Threads": 2, "Minimum Thinking Time": 3})
 
-initPos = [None, None]
-finalPos = [None, None]
-firstCheck = True
-justMoved = False
-fullyMoved = False
-selfColor = None
+initPos = [None, None] #stores the position from where the pieces is picked (when move is made)
+finalPos = [None, None] #stores the position of where the pieces is played (when move is made)
+firstCheck = True #Checks if current iteration is first iteration of the loop
+justMoved = False #Checks if in the last iteration of the main loop a move was made by the program
+fullyMoved = False #In chess.com (even on fast animation) Pieces take about ~0.3 second time to move, if a change is detected on the board then it allows the piece to move completely (complete it's animation) and then check what the move was; to avoid error
+selfColor = None #Stores the color assigned to the user in the chess game
 initFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" #initial position of chess board (assuming the user to be playing with white)
 currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" #We set current Fen to initFen assuming that the player will get white color
 
@@ -102,17 +102,18 @@ if __name__ == "__main__":
 
 
             else : 
-                selfColor = 'white'
-                stockfish.set_fen_position(initFen)
-                move = random.choice(["c2c4", "e2e4", "d2d4", "f2f4", "c2c3", "e2e3", "d2d3", "f2f3"])
-                stockfish.make_moves_from_current_position([move])
+                selfColor = 'white' #sets the color of the player to white
+                stockfish.set_fen_position(initFen) #for white (as it makes the first move) the fen is initFen
+                move = random.choice(["c2c4", "e2e4", "d2d4", "f2f4", "c2c3", "e2e3", "d2d3", "f2f3"]) #Choose randomly out of the following moves (Although f3 and f4 are not good moves and you can neglect them, Or you can keep them to disrespect your opponent)
+                stockfish.make_moves_from_current_position([move]) #makes one of the random moves out of the above
 
-                # vitrual move Making logic here
+                #getting the coordinates of the point of start and of end from the stockfish notation
                 initPos[0] = ord(move[0])-97
                 initPos[1] = 8-int(move[1])
                 finalPos[0] = ord(move[2])-97
                 finalPos[1] = 8-int(move[3])
 
+                #simulating virtual clicks on the start point and at the end point thus making a move
                 gui.moveTo(boardInitPos[0] + initPos[0]*blockSize[0] + 78, boardInitPos[1] + initPos[1]*blockSize[1] + 78, 0.2)
                 gui.click()
                 gui.moveTo(boardInitPos[0] + finalPos[0]*blockSize[0] + 78, boardInitPos[1] + finalPos[1]*blockSize[1] + 78, 0.3)
@@ -132,33 +133,34 @@ if __name__ == "__main__":
             justMoved = False
         
         if prevBoard != currentBoard:
-            if fullyMoved == False:
-                time.sleep(0.3)
-                fullyMoved = True
+            if fullyMoved == False: #Has the animation of movement of piece completed?
+                time.sleep(0.3) #gives it enough time to complete
+                fullyMoved = True #returns to the loop again to check the actual move that was made
                 continue
             fullyMoved = False
             system("cls")
             print(selfColor)
-            pieceMoves = list()
+            pieceMoves = list()  #stores the coordinates of opponent pieces that have changed their positions (both the position where they initially were and where they came after moving)
             for i in range(8):
                 for j in range(8):
-                    if prevBoard[i][j] != currentBoard[i][j]:
-                        if selfColor == 'black' and ((prevBoard[i][j].isupper() == True) or (currentBoard[i][j].isupper() == True)):
-                            if initPos == [None, None] : initPos = [i, j]
-                            else : finalPos = [i, j]
-                            pieceMoves.append([i, j])
-                        elif (prevBoard[i][j].islower() == True) or (currentBoard[i][j].islower() == True):
-                            if initPos == [None, None] : initPos = [i, j]
-                            else : finalPos = [i, j]
-                            pieceMoves.append([i, j])
+                    if prevBoard[i][j] != currentBoard[i][j]: #if the pieces on coordinates of current board and the board before the move was made are different
+                        if selfColor == 'black' and ((prevBoard[i][j].isupper() == True) or (currentBoard[i][j].isupper() == True)): #checks if the piece that moved was an opponent piece
+                            if initPos == [None, None] : initPos = [i, j] #stores the position first in initPos
+                            else : finalPos = [i, j] #and later in finalPos
+                            pieceMoves.append([i, j]) #appends the list with coordinate of opponent pieces that moved (be it initial or final)
+                        elif (prevBoard[i][j].islower() == True) or (currentBoard[i][j].islower() == True): #checks if the piece that was moved was an opponent piece
+                            if initPos == [None, None] : initPos = [i, j] #stores the position first in initPos
+                            else : finalPos = [i, j] #and later in finalPos
+                            pieceMoves.append([i, j]) #appends the list with coordinates of opponent pieces that moved (be it initial or final)
                         
                     print(currentBoard[j][i], end=" ")
                 print()
             
-            if len(pieceMoves) == 4:
+            if len(pieceMoves) == 4: #if number of such positions are 4 means there are two inital and two final positions which can only happen in the case of castling
                 print("\<----        nCastles!!         ---->\n")
                 for i in range(4):
                     for j in range(4):
+                        #since stockfish represents castling as a move of the king we identify the initial position and final position of the king out of the two neglecting the rook's position
                         if (i!=j) and (currentBoard[pieceMoves[i][0]][pieceMoves[i][1]] == prevBoard[pieceMoves[j][0]][pieceMoves[j][1]]) and (currentBoard[pieceMoves[i][0]][pieceMoves[i][1]].lower() == 'k'):
                             initPos = pieceMoves[i]
                             finalPos = pieceMoves[j]
@@ -167,26 +169,33 @@ if __name__ == "__main__":
             print(initPos, finalPos, len(pieceMoves))
             if initPos != [None, None]:
                 if selfColor == 'black':
-                    if prevBoard[initPos[0]][initPos[1]].isupper() != True:
+                    #Arranges the moves correctly (if not); Makes initPos store the initial position (as it is not necessary for the first position to encountered in the above loop logic to be initial position) and finalPos store final position
+                    if prevBoard[initPos[0]][initPos[1]].isupper() != True: 
                         initPos, finalPos = finalPos, initPos
+
+                    #Converts the position from tuples to stockfish notation of the move (for black)
                     initPos[0] = chr(104-initPos[0])
                     initPos[1] = str(initPos[1]+1)
                     finalPos[0] = chr(104-finalPos[0])
                     finalPos[1] = str(finalPos[1]+1)
                 else:
+                    #Arranges the moves correctly (if not); Makes initPos store the initial position (as it is not necessary for the first position to encountered in the above loop logic to be initial position) and finalPos store final position
                     if prevBoard[initPos[0]][initPos[1]].islower() != True:
                         initPos, finalPos = finalPos, initPos
+
+                    #Converts the position from tuples to stockfish notation for move (for white)
                     initPos[0] = chr(97+initPos[0])
                     initPos[1] = str(8-initPos[1])
                     finalPos[0] = chr(97+finalPos[0])
                     finalPos[1] = str(8-finalPos[1])
 
-                move = initPos[0] + initPos[1] + finalPos[0] + finalPos[1]
+                move = initPos[0] + initPos[1] + finalPos[0] + finalPos[1] #stores in form of string so that it can be given as input easily to stockfish
                 print(move)
 
                 stockfish.make_moves_from_current_position([move])
                 bestMove = stockfish.get_best_move()
-                
+
+                #getting the coordinates of the point of start and of end from the stockfish notation
                 if selfColor == 'black':
                     initPos[0] = 104-ord(bestMove[0])
                     initPos[1] = int(bestMove[1])-1
@@ -202,6 +211,7 @@ if __name__ == "__main__":
                 print(bestMove)
                 stockfish.make_moves_from_current_position([bestMove])
 
+                #simulating virtual clicks on the start point and at the end point thus making a move
                 gui.moveTo(boardInitPos[0] + initPos[0]*blockSize[0] + 78, boardInitPos[1] + initPos[1]*blockSize[1] + 78, 0.1)
                 gui.click()
                 gui.moveTo(boardInitPos[0] + finalPos[0]*blockSize[0] + 78, boardInitPos[1] + finalPos[1]*blockSize[1] + 78, 0.1)
