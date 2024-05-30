@@ -12,15 +12,16 @@ firstCheck = True
 justMoved = False
 fullyMoved = False
 selfColor = None
-initFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+initFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" #initial position of chess board (assuming the user to be playing with white)
+currentFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" #We set current Fen to initFen assuming that the player will get white color
 
-boardInitPos = [109, 227]
-boardEndPos = [844, 962]
-blockSize = [(boardEndPos[0]-boardInitPos[0])/8, (boardEndPos[1]-boardInitPos[1])/8]
-boardColors = [(243, 243, 244), (106, 155, 65)]
+#The following parameters were discovered by me after taking a screenshot
+boardInitPos = [109, 227] #Coordinates where the chess board starts (on chess.com)
+boardEndPos = [844, 962]  #Coordinates where the chess board ends (on chess.com)
+blockSize = [(boardEndPos[0]-boardInitPos[0])/8, (boardEndPos[1]-boardInitPos[1])/8] #Size of each square on chess board (on chess.com)
+boardColors = [(243, 243, 244), (106, 155, 65)] #The color of Board in 8-bit theme
 
-def fenBlack(board : list): #for starting positions
+def fenBlack(board : list): #get fen of the board for black for starting positions
     global initFen
     spaces = 0
     fenStr = str()
@@ -50,44 +51,46 @@ if __name__ == "__main__":
             for y in range(8):
                 bPos = [int(boardInitPos[0] + blockSize[0]*x), int(boardInitPos[1] + blockSize[1]*y)]
 
-                if img.getpixel((bPos[0]+46, bPos[1]+71)) in boardColors:
+                if img.getpixel((bPos[0]+46, bPos[1]+71)) in boardColors: #if these coordinates are transparent for the png of piece than it must not be there
                     currentBoard[x].append(" ")
 
-                elif img.getpixel((bPos[0]+55, bPos[1]+9)) not in boardColors:
+                elif img.getpixel((bPos[0]+55, bPos[1]+9)) not in boardColors: #Only for Knight are these coordinates filled
                     currentBoard[x].append("N")
 
-                elif (img.getpixel((bPos[0]+42, bPos[1]+9)) not in boardColors) and (img.getpixel((bPos[0]+49, bPos[1]+9)) not in boardColors):
+                elif (img.getpixel((bPos[0]+42, bPos[1]+9)) not in boardColors) and (img.getpixel((bPos[0]+49, bPos[1]+9)) not in boardColors): #Both of these coordinates are filled at same time only if the piece is king
                     currentBoard[x].append("K")
 
-                elif img.getpixel((bPos[0]+42, bPos[1]+42)) in boardColors:
+                elif img.getpixel((bPos[0]+42, bPos[1]+42)) in boardColors: #As in 8 bit theme there is cut in the bishop, the middlish coordinates are transparent thus the color of board appears
                     currentBoard[x].append("B")
 
-                elif img.getpixel((bPos[0]+21, bPos[1]+22)) not in boardColors:
+                elif img.getpixel((bPos[0]+21, bPos[1]+22)) not in boardColors: #Only for the queen are these coordinates Occupied (The coordinates of highest point of the crown of the queen)
                     currentBoard[x].append("Q")
 
-                elif img.getpixel((bPos[0]+29, bPos[1]+16)) not in boardColors:
+                elif img.getpixel((bPos[0]+29, bPos[1]+16)) not in boardColors: #Only for the rook are these filled
                     currentBoard[x].append("R")
 
-                else:
+                else: #If the piece falls in none of the above catagories it has to be a pawn
                     currentBoard[x].append("P")
 
-                if img.getpixel((bPos[0]+46, bPos[1]+71)) == (56, 56, 56):
+                if img.getpixel((bPos[0]+46, bPos[1]+71)) == (56, 56, 56): #checks if the piece is black
                     currentBoard[x][y] = currentBoard[x][y].lower()
-        if firstCheck == True:
+                    
+        if firstCheck == True: #if this is the first iteration of the loop
             if currentBoard[0][0].isupper() == True : 
-                selfColor = 'black'
-                currentFen = fenBlack(currentBoard)
+                selfColor = 'black' #sets the color of player to black
+                currentFen = fenBlack(currentBoard) #gets the current fen
                 stockfish.set_fen_position(currentFen)
-                if currentFen != initFen:
+                if currentFen != initFen: #if this holds then it means that white player has already made it's move and it's black's turn
                     move = stockfish.get_best_move()
                     stockfish.make_moves_from_current_position([move])
                     
-                    #virtual move Making logic here
+                    #getting the coordinates of the point of start and of end from the stockfish notation
                     initPos[0] = 104-ord(move[0])
                     initPos[1] = int(move[1])-1
                     finalPos[0] = 104-ord(move[2])
                     finalPos[1] = int(move[3])-1
-                    
+
+                    #simulating virtual clicks on the start point and at the end point thus making a move
                     gui.moveTo(boardInitPos[0] + initPos[0]*blockSize[0] + 78, boardInitPos[1] + initPos[1]*blockSize[1] + 78, 0.2)
                     gui.click()
                     gui.moveTo(boardInitPos[0] + finalPos[0]*blockSize[0] + 78, boardInitPos[1] + finalPos[1]*blockSize[1] + 78, 0.3)
