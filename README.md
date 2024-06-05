@@ -39,3 +39,5 @@
 
 * Focus on improving your chess skills instead of using cheats.
 * There are plenty of resources available online and offline to help you learn and grow as a player.
+
+### [Thanks a lot to Gemini <3]
