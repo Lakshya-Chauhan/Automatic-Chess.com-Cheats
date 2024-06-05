@@ -28,11 +28,11 @@
 6. **Randomized Move Timing (Optional):**
 
 * Use time.sleep() to introduce random delays between program moves, reducing suspicion.
-* Consider an inverse time relationship: Longer opponent moves lead to faster program moves.
+* Consider an inverse time relationship: Longer opponent moves lead to faster program moves. <br>
 ****Notes:****
 
 * This is not recommended as it disrupts fair play.
-* Chess.com has anti-cheating measures in place.
+* Chess.com has anti-cheating measures in place. <br>
 **Additional Tips:**
 
 * Focus on improving your chess skills instead of using cheats.
