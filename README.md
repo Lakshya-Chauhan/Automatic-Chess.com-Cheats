@@ -1,11 +1,11 @@
-These are the cheats for chess.com in python made with use of pyautogui. (Caution : Don't use them more number of times, You'll end up getting banned)
+These are the cheats for chess.com in python made with use of pyautogui. (Caution : Don't use them repeatedly, You'll end up getting banned)
 
-Use 8 bit theme for board and the same 8 bit for pieces the the animation for pieces to 'fast' and set win celebration to 'none' and turn off highlighting moves.
+Use 8 bit theme for board and the same 8 bit theme for the pieces and set the animation for pieces to 'fast' and set win celebration to 'none' and turn off highlighting moves.
 Also turn off pre-post game animation and also turn off special theme.
 
 For these cheats to work. 
 
-Also open the chess.com window in chrome browser in left half of screen. It must occupy exactly half coordinates (it's easy to do in win 10 and 11).
+Also open the chess.com window in chrome browser in left half of screen. It must occupy exactly half coordinates (it's easy to do in win 10 and 11). [Assuming your pc resolution to be 1920 x 1080 pixels]
 Don't move your mouse or scroll the board in process when the programm in running.
 
 If any of the following are not done the program will throw and error on move 1st or 2nd of yours.
