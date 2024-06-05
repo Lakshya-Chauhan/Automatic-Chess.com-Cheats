@@ -6,29 +6,29 @@
 
 1. **Optimize Chess.com Interface:**
 
-* Set the theme to "8-bit" for both board and pieces.
-* Set piece animation to "fast" and win celebration to "none."
-* Disable highlighting moves, pre-game/post-game animations, and special themes.
+    * Set the theme to "8-bit" for both board and pieces.
+    * Set piece animation to "fast" and win celebration to "none."
+    * Disable highlighting moves, pre-game/post-game animations, and special themes.
 2. **Window Positioning:**
 
-* Open Chess.com in Chrome on the left half of your screen.
-* Ideally, the window should occupy exactly half the screen width (1920px resolution assumed). This is easily achieved on Windows 10/11.
+    * Open Chess.com in Chrome on the left half of your screen.
+    * Ideally, the window should occupy exactly half the screen width (1920px resolution assumed). This is easily achieved on Windows 10/11.
 3. **Program Execution:**
 
-* Important: Do not move your mouse or scroll the board while the program is running.
-* Error Handling: Following these steps ensures the program runs smoothly. Errors might occur on your first or second move otherwise.
+    * Important: Do not move your mouse or scroll the board while the program is running.
+    * Error Handling: Following these steps ensures the program runs smoothly. Errors might occur on your first or second move otherwise.
 4. **First Move Handling:**
 
-* White Pieces: Let the program make the first move.
-* Black Pieces: The program works regardless of whether White has moved.
+    * White Pieces: Let the program make the first move.
+    * Black Pieces: The program works regardless of whether White has moved.
 5. **Program Termination:**
 
-* The program automatically stops upon encountering a "You Win" or "Draw" screen (caused by the screen change).
-* Disabling premoves in Chess.com settings is recommended.
+    * The program automatically stops upon encountering a "You Win" or "Draw" screen (caused by the screen change).
+    * Disabling premoves in Chess.com settings is recommended.
 6. **Randomized Move Timing (Optional):**
 
-* Use time.sleep() to introduce random delays between program moves, reducing suspicion.
-* Consider an inverse time relationship: Longer opponent moves lead to faster program moves.
+    * Use time.sleep() to introduce random delays between program moves, reducing suspicion.
+    * Consider an inverse time relationship: Longer opponent moves lead to faster program moves.
 
 ****Notes:****
 
