@@ -1,19 +1,39 @@
-These are the cheats for chess.com in python made with use of pyautogui. (Caution : Don't use them repeatedly, You'll end up getting banned)
+# **Chess.com "Cheats" in Python (Use with Caution!)**
 
-Use 8 bit theme for board and the same 8 bit theme for the pieces and set the animation for pieces to 'fast' and set win celebration to 'none' and turn off highlighting moves.
-Also turn off pre-post game animation and also turn off special theme.
+****Disclaimer**** : Using these scripts can get you banned from Chess.com. Use them responsibly or not at all.
 
-For these cheats to work. 
+## **Instructions:**
 
-Also open the chess.com window in chrome browser in left half of screen. It must occupy exactly half coordinates (it's easy to do in win 10 and 11). [Assuming your pc resolution to be 1920 x 1080 pixels]
-Don't move your mouse or scroll the board in process when the programm in running.
+1. **Optimize Chess.com Interface:**
 
-If any of the following are not done the program will throw and error on move 1st or 2nd of yours.
+* Set the theme to "8-bit" for both board and pieces.
+* Set piece animation to "fast" and win celebration to "none."
+* Disable highlighting moves, pre-game/post-game animations, and special themes.
+2. **Window Positioning:**
 
-Also, the cheats will only work when You use them at the start of the game. If you are white then let it make the first move.
-If you are black then no matter if White had already moved or hasn't You can run the program it will work in both cases.
+* Open Chess.com in Chrome on the left half of your screen.
+* Ideally, the window should occupy exactly half the screen width (1920px resolution assumed). This is easily achieved on Windows 10/11.
+3. **Program Execution:**
 
-After you win the program will automatically stop it's execution do to the error which would be caused due to change of screen to "You Win" or "Draw".
-(Also it's better to disable premoves for this program)
+* Important: Do not move your mouse or scroll the board while the program is running.
+* Error Handling: Following these steps ensures the program runs smoothly. Errors might occur on your first or second move otherwise.
+4. **First Move Handling:**
 
-Also you can use time.sleep() function to randomise the times in which the program will make moves to avoid the suspicion of cheating even further on chess.com. Or you can also make an inverse relation of time consumed by bot with the time consumed by opponent. Means the more time your opponent takes to move the faster you'll move.
+* White Pieces: Let the program make the first move.
+* Black Pieces: The program works regardless of whether White has moved.
+5. **Program Termination:**
+
+* The program automatically stops upon encountering a "You Win" or "Draw" screen (caused by the screen change).
+* Disabling premoves in Chess.com settings is recommended.
+6. **Randomized Move Timing (Optional):**
+
+* Use time.sleep() to introduce random delays between program moves, reducing suspicion.
+* Consider an inverse time relationship: Longer opponent moves lead to faster program moves.
+****Notes:****
+
+* This is not recommended as it disrupts fair play.
+* Chess.com has anti-cheating measures in place.
+**Additional Tips:**
+
+* Focus on improving your chess skills instead of using cheats.
+* There are plenty of resources available online and offline to help you learn and grow as a player.
